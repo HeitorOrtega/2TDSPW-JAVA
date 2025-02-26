@@ -1,7 +1,7 @@
 package br.com.fiap.api_rest.controller;
 
-import br.com.fiap.api_rest.dto.LivroRequest;
-import br.com.fiap.api_rest.dto.LivroResponse;
+import br.com.fiap.api_rest.DTO.LivroRequest;
+import br.com.fiap.api_rest.DTO.LivroResponse;
 import br.com.fiap.api_rest.model.Livro;
 import br.com.fiap.api_rest.repository.LivroRepository;
 import br.com.fiap.api_rest.service.LivroService;
@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(value = "/livros")
@@ -37,9 +40,17 @@ public class LivroController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<LivroResponse>> readLivros() {
-        Pageable pageable = PageRequest.of(0, 2, Sort.by("título").ascending());
-       // Page<Livro> livros = livroRepository.findAll(pageable);
+    public ResponseEntity<Page<LivroResponse>> readLivros(@RequestParam(defaultValue = "0") Integer pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber, 2, Sort.by("autor").ascending().and(Sort.by("título").ascending()));
+       Page<LivroResponse> livros = livroService.findAll(pageable);
+       for (LivroResponse livro: livros){
+           LivroResponse.setLink(
+                   linkTo(
+                           methodOn(LivroController.class)
+                                   .readLivro(livro.getId())
+                   ).withSelfRel()
+           );
+       }
         return new ResponseEntity<>(livroService.findAll(pageable),HttpStatus.OK);
     }
 
@@ -47,11 +58,18 @@ public class LivroController {
     // @RequestParam localhost:8080/livros/?id=1
     @GetMapping("/{id}")
     public ResponseEntity<LivroResponse> readLivro(@PathVariable Long id) {
-
         Optional<Livro> livro = livroRepository.findById(id);
         if (livro.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        LivroResponse livroResponse = livroService.livroToResponse(livro.get());
+        LivroResponse.setLink(
+                linkTo(
+                        methodOn(LivroController.class)
+                                .readLivros(0))
+                        .withRel("Lista de Livros"));
+
+
         return new ResponseEntity<>(livroService.livroToResponse(livro.get()),HttpStatus.OK);
     }
 
