@@ -23,7 +23,7 @@ public class LivroService {
     LivroRepository livroRepository;
 
     public Livro requestToLivro(LivroRequest livroRequest) {
-       Livro livro = new Livro();
+        Livro livro = new Livro();
 
         livro.setAutor(livroRequest.getAutor());
         livro.setTitulo(livroRequest.getTitulo());
@@ -44,7 +44,7 @@ public class LivroService {
     public LivroResponse livroToResponse(Livro livro) {
         return new LivroResponse(livro.getId(), livro.getAutor() + " - " + livro.getTitulo());
     }
-    
+
     public List<LivroResponse> livrosToResponse(List<Livro> livros) {
         List<LivroResponse> listaLivros = new ArrayList<>();
         for (Livro livro : livros) {
@@ -53,8 +53,13 @@ public class LivroService {
         return listaLivros;
     }
 
-    public Page<LivroResponse> findAll(Pageable pageable){
+    public Page<LivroResponse> findAll(Pageable pageable) {
         return livroRepository.findAll(pageable).map(this::livroToResponse);
         //return livroRepository.findAll(pageable).map(livro -> livroToResponse);
+    }
+
+    public Page<LivroResponseDTO> findAllDTO(Pageable pageable) {
+
+        return null;
     }
 }
