@@ -1,14 +1,13 @@
-package br.com.fiap.api_rest.DTO;
+package br.com.fiap.api_rest.dto;
 
 import org.springframework.hateoas.Link;
 
-public class LivroResponse{
+public class LivroResponse {
     private Long id;
     private String infoLivro;
-    private static Link link;
+    private Link link;
 
-
-    public LivroResponse(Long id , String infoLivro) {
+    public LivroResponse(Long id, String infoLivro) {
         this.id = id;
         this.infoLivro = infoLivro;
     }
@@ -33,9 +32,7 @@ public class LivroResponse{
         return link;
     }
 
-    public static void setLink(Link link) {
-        LivroResponse.link = link;
+    public void setLink(Link link) {
+        this.link = link;
     }
-
 }
-

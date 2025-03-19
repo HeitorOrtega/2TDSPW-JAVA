@@ -1,4 +1,4 @@
-package br.com.fiap.api_rest.DTO;
+package br.com.fiap.api_rest.dto;
 
 import br.com.fiap.api_rest.model.Categoria;
 import jakarta.validation.constraints.*;

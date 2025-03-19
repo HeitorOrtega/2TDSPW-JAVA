@@ -1,6 +1,6 @@
-package br.com.fiap.api_rest.DTO;
+package br.com.fiap.api_rest.dto;
 
-import org.springframework.hateoas.Links;
+import org.springframework.hateoas.Link;
 
-public record LivroResponseDTO(Long id, String infoLivro, Links link) {
+public record LivroResponseDTO(Long id, String infoLivro, Link link) {
 }
