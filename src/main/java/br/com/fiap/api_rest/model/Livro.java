@@ -10,15 +10,15 @@ public class Livro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String titulo;
-    @ManyToMany(mappedBy =  "livros")
-    @JoinTable(name = "autor_livro" , joinColumns = @JoinColumn(name = "id_livro" , referencedColumnName = ""))
+    @ManyToMany(mappedBy = "livros")
     private List<Autor> autores;
     private int preco;
     private Categoria categoria;
     private String isbn;
-    @OneToMany
-    @JoinColumn(name ="id_biblioteca")
+    @ManyToOne
+    @JoinColumn(name = "id_biblioteca")
     private Biblioteca biblioteca;
+    private int numeroExemplar;
 
     public Long getId() {
         return id;
@@ -48,14 +48,6 @@ public class Livro {
         return preco;
     }
 
-    public Biblioteca getBiblioteca() {
-        return biblioteca;
-    }
-
-    public void setBiblioteca(Biblioteca biblioteca) {
-        this.biblioteca = biblioteca;
-    }
-
     public void setPreco(int preco) {
         this.preco = preco;
     }
@@ -74,5 +66,21 @@ public class Livro {
 
     public void setIsbn(String isbn) {
         this.isbn = isbn;
+    }
+
+    public Biblioteca getBiblioteca() {
+        return biblioteca;
+    }
+
+    public void setBiblioteca(Biblioteca biblioteca) {
+        this.biblioteca = biblioteca;
+    }
+
+    public int getNumeroExemplar() {
+        return numeroExemplar;
+    }
+
+    public void setNumeroExemplar(int numeroExemplar) {
+        this.numeroExemplar = numeroExemplar;
     }
 }

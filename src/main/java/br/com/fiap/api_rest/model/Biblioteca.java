@@ -10,22 +10,14 @@ public class Biblioteca {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_endereco")
-    private Endereco  endereco;
-    @OneToMany(mappedBy = "id_biblioteca")
+    private Endereco endereco;
+    @OneToMany(mappedBy = "biblioteca")
     private List<Livro> livros;
 
     public Long getId() {
         return id;
-    }
-
-    public List<Livro> getLivros() {
-        return livros;
-    }
-
-    public void setLivros(List<Livro> livros) {
-        this.livros = livros;
     }
 
     public void setId(Long id) {
@@ -46,5 +38,13 @@ public class Biblioteca {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    public List<Livro> getLivros() {
+        return livros;
+    }
+
+    public void setLivros(List<Livro> livros) {
+        this.livros = livros;
     }
 }

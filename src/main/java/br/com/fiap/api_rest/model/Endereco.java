@@ -8,8 +8,15 @@ public class Endereco {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String localizacao;
-    @OneToOne (mappedBy = "endereco")
+    @OneToOne(mappedBy = "endereco")
     private Biblioteca biblioteca;
+
+    public Endereco() {
+    }
+
+    public Endereco(String localizacao) {
+        this.localizacao = localizacao;
+    }
 
     public Long getId() {
         return id;
